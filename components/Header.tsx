@@ -8,7 +8,7 @@ function Header() {
         <Link href="/">
           <img
             className="w-44 object-contain cursor-pointer"
-            src="/Motive Logo.png"
+            src="/Motive.png"
             alt="Motive Logo"
           />
         </Link>
