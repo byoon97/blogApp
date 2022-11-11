@@ -12,7 +12,7 @@ export interface SinglePost {
             data: {
                 attributes: {
                     formats: {
-                        large: {
+                        small: {
                             url: string
                         }
                     }

@@ -28,23 +28,23 @@ export default function Home(data: Props) {
       <Banner />
 
       {/* Post */}
-      <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 p-2 md:p-6">
         {data.data.data.map((post: SinglePost) => {
           return (
             <Link key={post.id} href={`/posts/${post.id}`}>
-              <div>
+              <div className="border rounded-lg group cusor-pointer overflow-hidden">
                 <img
+                  className="h-60 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out"
                   src={
                     "http://localhost:1337" +
-                    post.attributes.coverPhoto.data.attributes.formats.medium
-                      .url
+                    post.attributes.coverPhoto.data.attributes.formats.small.url
                   }
                   alt="Banner"
                 />
-                <div>
+                <div className="flex justify-between p-5 bg-white">
                   <div>
-                    <p>{post.attributes.title}</p>
-                    <p>
+                    <p className="text-lg font-bold">{post.attributes.title}</p>
+                    <p className="text-xs">
                       by{" "}
                       {
                         post.attributes.users_permissions_user.data.attributes
