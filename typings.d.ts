@@ -1,14 +1,30 @@
-export interface Post {
-    id : string,
+export interface Posts {
+     data : SinglePost[]
+}
+
+export interface SinglePost {
+    id : number,
     attributes: {
-        title: string,
+        title : string,
         body: string,
         createdAt: string,
-        coverPhoto: object,
-        users_permissions_user: object
-    }
-    data: {
-        id: string
-        attributes: string
+        coverPhoto: {
+            data: {
+                attributes: {
+                    formats: {
+                        large: {
+                            url: string
+                        }
+                    }
+                }
+            }
+        },
+        users_permissions_user: {
+            data: {
+                attributes: {
+                    username: string
+                }
+            }
+        }
     }
 }
