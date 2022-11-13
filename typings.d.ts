@@ -16,6 +16,9 @@ export interface SinglePost {
                         small: {
                             url: string
                         }
+                        large: {
+                            url: string
+                        }
                     }
                 }
             }
