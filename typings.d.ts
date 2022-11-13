@@ -3,6 +3,7 @@ export interface Posts {
 }
 
 export interface SinglePost {
+    data : {}
     id : number,
     attributes: {
         title : string,

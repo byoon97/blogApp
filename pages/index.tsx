@@ -12,7 +12,7 @@ export const getServerSideProps = async () => {
   const { data }: Posts = await axios.get(
     "http://localhost:1337/api/posts?populate=*"
   );
-  console.log(data);
+
   return {
     props: {
       data,
@@ -24,7 +24,6 @@ export default function Home(data: Props) {
   console.log(data.data.data);
   return (
     <div className="max-w-7xl mx-auto">
-      <Header />
       <Banner />
 
       {/* Post */}
