@@ -19,12 +19,19 @@ export const motiveApi = createApi({
     getSinglePost: builder.query<SinglePost, string>({
       query: (id) => `/posts/${id}?populate=*`,
       providesTags: ['Post']
-    })
+    }),
+    createPost: builder.mutation<SinglePost, { data: Partial<SinglePost> }>({
+      query: ( data ) => ({
+        url: `/posts`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
 // For Functional Components
-export const { useGetPostsQuery, useGetSinglePostQuery, } = motiveApi;
+export const { useGetPostsQuery, useGetSinglePostQuery, useCreatePostMutation } = motiveApi;
 
 // For SSR Rendering
 export const {getPosts, getSinglePost} = motiveApi.endpoints

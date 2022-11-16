@@ -11,7 +11,6 @@ const MyApp: FC<AppProps> = ({ Component, ...rest }) => {
   return (
     <Provider store={store}>
       <div className="bg-stone-300">
-        <Header />
         <Component {...props.pageProps} />
       </div>
     </Provider>
