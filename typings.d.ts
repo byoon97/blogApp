@@ -1,9 +1,13 @@
+export interface ID {
+    id: string
+}
+
 export interface Posts {
      data : SinglePost[]
 }
 
 export interface SinglePost {
-    data : {}
+    data : {
     id : number,
     attributes: {
         title : string,
@@ -30,5 +34,6 @@ export interface SinglePost {
                 }
             }
         }
-    }
+    }}
+    
 }

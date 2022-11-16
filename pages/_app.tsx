@@ -1,17 +1,21 @@
 import "../styles/globals.css";
+import React, { FC } from "react";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { motiveApi } from "../redux/api";
-import { store } from "../redux/store";
+import { wrapper } from "../redux/store";
 import Header from "../components/Header";
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp: FC<AppProps> = ({ Component, ...rest }) => {
+  const { store, props } = wrapper.useWrappedStore(rest);
   return (
     <Provider store={store}>
-      <Header />
-      <Component {...pageProps} />
+      <div className="bg-stone-300">
+        <Header />
+        <Component {...props.pageProps} />
+      </div>
     </Provider>
   );
-}
+};
 
 export default MyApp;
