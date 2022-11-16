@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Posts, SinglePost, ID } from "../../typings";
+import { Posts, SinglePost, ID, SingleComment } from "../../typings";
 import { useGetSinglePostQuery } from "../../redux/api";
 import { ParsedUrlQuery } from "querystring";
 import { skipToken } from "@reduxjs/toolkit/query";
@@ -17,6 +17,13 @@ function Post() {
       skip: router.isFallback,
     }
   );
+
+  useEffect(() => {
+    isSuccess &&
+      data.data.attributes.comments.data.forEach((comment: SingleComment) =>
+        console.log(comment)
+      );
+  }, []);
 
   return (
     <div className="flex flex-col items-center">
@@ -49,6 +56,33 @@ function Post() {
           </article>
         </main>
       ) : null}
+      <div className="antialiased mx-auto max-w-screen-sm">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900 pt-5 text-center">
+          Comments
+        </h3>
+        <hr />
+        {isSuccess
+          ? data.data.attributes.comments.data.map((comment: SingleComment) => (
+              <div className="space-y-4 pt-5">
+                <div className="flex">
+                  <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+                    <strong>{comment.attributes.user}</strong>{" "}
+                    <span className="text-xs text-gray-400">
+                      {comment.attributes.createdAt.toLocaleString()}
+                    </span>
+                    <p className="text-sm">{comment.attributes.body}</p>
+                    <div className="mt-4 flex items-center">
+                      <div className="flex -space-x-2 mr-2"></div>
+                      {/* <div className="text-sm text-gray-500 font-semibold">
+                        5 Replies
+                      </div> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          : null}
+      </div>
 
       <div className="flex mx-auto items-center justify-center shadow-lg mt-40 max-w-lg">
         <form className="w-full max-w-xl bg-white rounded-lg px-4 pt-2">
@@ -79,7 +113,12 @@ function Post() {
                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <p className="text-xs md:text-sm pt-px">Some HTML is okay.</p>
+                <div className="flex justify-between">
+                  <p className="text-xs md:text-sm pt-px">Dont be Rude.</p>
+                  <button className="block uppercase mx-auto shadow bg-indigo-700 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-11 rounded">
+                    Submit
+                  </button>
+                </div>
               </div>
               <div className="-mr-1"></div>
             </div>

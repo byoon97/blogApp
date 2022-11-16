@@ -1,7 +1,6 @@
 import Post from "../[id]";
 import { getPosts, getSinglePost } from "../../../redux/api";
 import { makeStore } from "../../../redux/store";
-import { SinglePost, Posts } from "../../../typings";
 
 export async function getStaticPaths() {
   const store = makeStore();

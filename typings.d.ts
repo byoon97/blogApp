@@ -34,6 +34,19 @@ export interface SinglePost {
                 }
             }
         }
-    }}
+        comments : {
+            data : SingleComment[]
+        }
+    }
+    }
+}
+
+export interface SingleComment {
+        id : number,
+        attributes: {
+            body: string
+            createdAt: string
+            user: string
+        }
     
 }
