@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Posts, SinglePost, ID, SingleComment } from "../../typings";
+import { Posts, SinglePost, ID, SingleComment } from "../../types/typings";
 import { useGetSinglePostQuery } from "../../redux/api";
 import { ParsedUrlQuery } from "querystring";
 import { skipToken } from "@reduxjs/toolkit/query";

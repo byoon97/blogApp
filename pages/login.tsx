@@ -1,9 +1,40 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import * as React from "react";
+import { useRef } from "react";
+import { signIn, getSession } from "next-auth/react";
 
 export interface IAppProps {}
 
 export default function App(props: IAppProps) {
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const router = useRouter();
+
+  async function handleSubmit(e: React.ChangeEvent<any>) {
+    e.preventDefault();
+    const credentials = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: credentials.email,
+        password: credentials.password,
+      });
+      if (result.ok) {
+        router.replace("/");
+        return;
+      }
+      alert("Credential is not valid");
+    } catch (err) {
+      console.log("Failed to sign in");
+      console.error(err);
+    }
+  }
+
   return (
     <div className="flex items-center justify-center h-screen flex-col">
       <div className="text-center">
@@ -38,6 +69,7 @@ export default function App(props: IAppProps) {
               <input
                 className="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
                 type="email"
+                ref={emailRef}
                 required
               />
             </div>
@@ -51,6 +83,7 @@ export default function App(props: IAppProps) {
               <input
                 className="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
                 type="password"
+                ref={passwordRef}
                 required
               />
             </div>
@@ -71,7 +104,10 @@ export default function App(props: IAppProps) {
               </div>
             </div>
             <div className="w-full md:w-full px-3 mb-6">
-              <button className="appearance-none block w-full bg-blue-600 text-gray-100 font-bold border border-gray-200 rounded-lg py-3 px-3 leading-tight hover:bg-blue-500 focus:outline-none focus:bg-white focus:border-gray-500">
+              <button
+                onClick={(e) => handleSubmit(e)}
+                className="appearance-none block w-full bg-blue-600 text-gray-100 font-bold border border-gray-200 rounded-lg py-3 px-3 leading-tight hover:bg-blue-500 focus:outline-none focus:bg-white focus:border-gray-500"
+              >
                 Sign in
               </button>
             </div>
