@@ -38,10 +38,8 @@ const URL = "http://localhost:1337/api/auth/local";
         },
         async session({ session, token, user }) {
           // Send properties to the client, like an access_token and user id from a provider.
-          session.user.isAdmin = token.isAdmin;
           session.user.id = token.id;
           session.user.name = token.name;
-          session.user.balance = token.balance;
           session.user.username = token.username;
     
           return session;

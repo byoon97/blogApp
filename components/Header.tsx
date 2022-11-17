@@ -1,10 +1,15 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
 function Header() {
   const { data: session, status } = useSession();
   console.log(session, status);
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/" });
+  };
+
   return (
     <header className="flex justify-between p-5 max-w-7xl mx-auto">
       <div className="flex items-center space-x-5">
@@ -24,9 +29,14 @@ function Header() {
         </div>
       </div>
       <div className="flex items-center space-x-5 text-green-600">
-        <Link href="/login">
-          <h3>Sign In</h3>
-        </Link>
+        {status !== "authenticated" ? (
+          <Link href="/login">
+            <h3>Sign In</h3>
+          </Link>
+        ) : (
+          <h3 onClick={handleLogout}>Sign Out</h3>
+        )}
+
         <h3 className="border px-4 py-1 rounded-full border-green-600">
           Get Started
         </h3>

@@ -14,8 +14,8 @@ export default function App(props: IAppProps) {
   async function handleSubmit(e: React.ChangeEvent<any>) {
     e.preventDefault();
     const credentials = {
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
+      email: emailRef?.current?.value,
+      password: passwordRef?.current?.value,
     };
 
     try {
@@ -24,7 +24,7 @@ export default function App(props: IAppProps) {
         email: credentials.email,
         password: credentials.password,
       });
-      if (result.ok) {
+      if (result?.ok) {
         router.replace("/");
         return;
       }
