@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Posts, SinglePost, ID, SingleComment } from "../../types/typings";
-import { useGetSinglePostQuery } from "../../redux/api";
-import { ParsedUrlQuery } from "querystring";
+import {
+  useGetSinglePostQuery,
+  useCreateCommentMutation,
+} from "../../redux/api";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useRouter } from "next/dist/client/router";
 import Header from "../../components/Header";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 function Post() {
   const router = useRouter();
-
+  const { data: session, status } = useSession();
+  const commentRef = useRef<HTMLTextAreaElement | null>(null);
   const id = router.query.id;
   const { data, isSuccess, error, isLoading } = useGetSinglePostQuery(
     typeof id === "string" ? id : skipToken,
@@ -18,13 +23,22 @@ function Post() {
       skip: router.isFallback,
     }
   );
+  const [createComment] = useCreateCommentMutation();
 
-  useEffect(() => {
-    isSuccess &&
-      data.data.attributes.comments.data.forEach((comment: SingleComment) =>
-        console.log(comment)
-      );
-  }, []);
+  const createCommentHandler = async (e: React.ChangeEvent<any>) => {
+    e.preventDefault();
+    try {
+      const data = await createComment({
+        body: commentRef?.current?.value,
+        post: Number(id),
+        users_permissions_user: session?.user.id,
+        user: session?.user.email.split("@")[0],
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -68,7 +82,7 @@ function Post() {
           {isSuccess
             ? data.data.attributes.comments.data.map(
                 (comment: SingleComment) => (
-                  <div className="space-y-4 pt-5">
+                  <div key={comment.id} className="space-y-4 pt-5">
                     <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
                       <strong>{comment.attributes.user}</strong>{" "}
                       <span className="text-xs text-gray-400">
@@ -94,13 +108,16 @@ function Post() {
           <form className="w-full max-w-xl bg-white rounded-lg px-4 pt-2 ">
             <div className="flex flex-wrap -mx-3 mb-6">
               <h2 className="px-4 pt-3 pb-2 text-gray-800 text-lg">
-                Add a new comment
+                {status === "authenticated"
+                  ? "create a comment"
+                  : "please sign in to comment"}
               </h2>
               <div className="w-full md:w-full px-3 mb-2 mt-2">
                 <textarea
                   className="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
                   name="body"
                   placeholder="Type Your Comment"
+                  ref={commentRef}
                   required
                 ></textarea>
               </div>
@@ -121,9 +138,20 @@ function Post() {
                   </svg>
                   <div className="flex justify-between">
                     <p className="text-xs md:text-sm pt-px">Dont be Rude.</p>
-                    <button className="block uppercase mx-auto shadow bg-indigo-700 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-11 rounded">
-                      Submit
-                    </button>
+                    {status === "authenticated" ? (
+                      <button
+                        onClick={(e) => createCommentHandler(e)}
+                        className="block uppercase mx-auto shadow bg-indigo-700 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-11 rounded"
+                      >
+                        Submit
+                      </button>
+                    ) : (
+                      <Link href="/login">
+                        <button className="block uppercase mx-auto shadow bg-indigo-700 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-11 rounded">
+                          SignIn
+                        </button>
+                      </Link>
+                    )}
                   </div>
                 </div>
                 <div className="-mr-1"></div>

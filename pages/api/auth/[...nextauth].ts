@@ -20,7 +20,7 @@ const URL = "http://localhost:1337/api/auth/local";
                 identifier: credentials.email,
                 password: credentials.password
             });
-            return { ...data.user, ...data.jwt };
+            return { ...data.user, ...data.jwt, ...data };
           } catch (error) {
             // Sign In Fail
             return null;
@@ -33,6 +33,7 @@ const URL = "http://localhost:1337/api/auth/local";
           // Persist the OAuth access_token and or the user id to the token right after signin
           if (user) {
             token.id = user.id;
+            token.email = user.email;
           }
           return token;
         },

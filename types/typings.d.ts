@@ -1,32 +1,9 @@
-export default interface User {
-    token: any;
-    jwt: string;
-    id: number;
-    username: string;
-}
-
-export default interface IAccount {
-    id: number;
-    provider: string;
-    type: string;
-    refreshToken: string;
-    accessToken: string;
-    accessTokenExpires: string;
-  }
-
-export default interface iToken {
-    jwt: string;
-    id: number;
-    email: string;
-    name: string;
-}
-
-
 export default interface Session {
     jwt: string;
     user: User
     id: number;
     expires: string;
+    username: string
 }
 
 export interface ID {
@@ -108,6 +85,5 @@ export interface SingleComment {
             body: string
             createdAt: string
             user: string
-        }
-    
+        }  
 }

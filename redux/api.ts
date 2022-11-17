@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from 'next-redux-wrapper'
-import { Posts, SinglePost } from "../types/typings";
+import { Posts, SingleComment, SinglePost } from "../types/typings";
 
 export const motiveApi = createApi({
   reducerPath: "motiveApi",
@@ -10,7 +10,7 @@ export const motiveApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ["Posts", "Post"],
+  tagTypes: ["Posts", "Post", 'Comments'],
   endpoints: (builder) => ({
     getPosts: builder.query<{ results: Array<{ id: string }> }, void>({
       query: () => `/posts?populate=*`,
@@ -26,12 +26,21 @@ export const motiveApi = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Post', 'Posts', 'Comments']
     }),
+    createComment: builder.mutation<SingleComment, object>({
+      query: ( data ) => ({
+        url: `/comments`,
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Post', 'Posts', 'Comments']
+    })
   }),
 });
 
 // For Functional Components
-export const { useGetPostsQuery, useGetSinglePostQuery, useCreatePostMutation } = motiveApi;
+export const { useGetPostsQuery, useGetSinglePostQuery, useCreatePostMutation, useCreateCommentMutation } = motiveApi;
 
 // For SSR Rendering
 export const {getPosts, getSinglePost} = motiveApi.endpoints
