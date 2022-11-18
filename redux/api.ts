@@ -21,7 +21,7 @@ export const motiveApi = createApi({
       providesTags: ['Post']
     }),
     createPost: builder.mutation<SinglePost, { data: Partial<SinglePost> }>({
-      query: ( data ) => ({
+      query: (data) => ({
         url: `/posts`,
         method: 'POST',
         body: data,
@@ -29,10 +29,10 @@ export const motiveApi = createApi({
       invalidatesTags: ['Post', 'Posts', 'Comments']
     }),
     createComment: builder.mutation<SingleComment, object>({
-      query: ( data ) => ({
+      query: (data) => ({
         url: `/comments`,
         method: 'POST',
-        body: data,
+        body: {data},
       }),
       invalidatesTags: ['Post', 'Posts', 'Comments']
     })

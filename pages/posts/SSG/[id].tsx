@@ -7,7 +7,7 @@ export async function getStaticPaths() {
   const result = await store.dispatch(getPosts.initiate());
 
   return {
-    paths: result.data?.results.map((p) => `/post/ssg/${p.id}`).slice(0, 10),
+    paths: result.data?.results.map((p) => `/post/ssg/${p.id}`),
     fallback: true,
   };
 }
