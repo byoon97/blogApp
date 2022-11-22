@@ -3,12 +3,14 @@ import { Posts, SinglePost, ID, SingleComment } from "../../types/typings";
 import {
   useGetSinglePostQuery,
   useCreateCommentMutation,
+  getPosts,
 } from "../../redux/api";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useRouter } from "next/dist/client/router";
 import Header from "../../components/Header";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { makeStore } from "../../redux/store";
 
 function Post() {
   const router = useRouter();
@@ -24,6 +26,19 @@ function Post() {
     }
   );
   const [createComment] = useCreateCommentMutation();
+
+  // ssg
+  const store = makeStore();
+
+  useEffect(() => {
+    const hello = async () => {
+      const result = await store.dispatch(getPosts.initiate());
+      console.log(result);
+      return result;
+    };
+
+    console.log("hello", hello());
+  }, []);
 
   const createCommentHandler = async (e: React.ChangeEvent<any>) => {
     e.preventDefault();
@@ -49,9 +64,9 @@ function Post() {
             <img
               className="w-full h-42 object-cover"
               src={
-                "http://localhost:1337" +
-                data.data.attributes.coverPhoto.data.attributes.formats.large
-                  .url
+                "https://motive-app.herokuapp.com" +
+                data.data.attributes.coverPhoto.data.attributes.formats
+                  .thumbnail.url
               }
               alt="hello"
             />

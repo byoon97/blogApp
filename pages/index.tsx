@@ -3,6 +3,8 @@ import Link from "next/link";
 import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import { getPosts, useGetPostsQuery } from "../redux/api";
+import { makeStore } from "../redux/store";
 import { Posts, SinglePost } from "../types/typings";
 
 interface Props {
@@ -10,9 +12,9 @@ interface Props {
 }
 
 export const getServerSideProps = async () => {
-  const { data }: Posts = await axios.get(
-    "http://localhost:1337/api/posts?populate=*"
-  );
+  const store = makeStore();
+  const { data } = await store.dispatch(getPosts.initiate());
+
   return {
     props: {
       data,
@@ -21,6 +23,7 @@ export const getServerSideProps = async () => {
 };
 
 export default function Home(data: Props) {
+  console.log(data);
   return (
     <>
       <div className="max-w-7xl mx-auto h-screen">
@@ -36,9 +39,9 @@ export default function Home(data: Props) {
                   <img
                     className="h-60 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out"
                     src={
-                      "http://localhost:1337" +
-                      post.attributes.coverPhoto.data.attributes.formats.small
-                        .url
+                      "https://motive-app.herokuapp.com" +
+                      post.attributes.coverPhoto.data.attributes.formats
+                        .thumbnail.url
                     }
                     alt="Banner"
                   />

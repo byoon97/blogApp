@@ -31,6 +31,9 @@ export interface SinglePost {
                             large: {
                                 url: string
                             }
+                            thumbnail: {
+                                url: string
+                            }
                         }
                     }
                 }
@@ -60,6 +63,9 @@ export interface SinglePost {
                             url: string
                         }
                         large: {
+                            url: string
+                        }
+                        thumbnail: {
                             url: string
                         }
                     }

@@ -1,13 +1,18 @@
 import Post from "../[id]";
+import { SinglePost } from "../../../types/typings";
 import { getPosts, getSinglePost } from "../../../redux/api";
 import { makeStore } from "../../../redux/store";
 
 export async function getStaticPaths() {
   const store = makeStore();
-  const result = await store.dispatch(getPosts.initiate());
+  const { data } = await store.dispatch(getPosts.initiate());
+
+  // const paths = result?.data?.results.map((post : SinglePost )=> ({
+
+  // }))
 
   return {
-    paths: result.data?.results.map((p) => `/post/ssg/${p.id}`),
+    paths: data?.data.map((post: SinglePost) => `/post/ssg/${post.id}`),
     fallback: true,
   };
 }
