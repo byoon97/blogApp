@@ -65,8 +65,8 @@ function Post() {
               className="w-full h-42 object-cover"
               src={
                 "https://motive-app.herokuapp.com" +
-                data.data.attributes.coverPhoto.data.attributes.formats
-                  .thumbnail.url
+                data.data.attributes.coverPhoto.data.attributes.formats.small
+                  .url
               }
               alt="hello"
             />
