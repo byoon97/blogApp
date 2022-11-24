@@ -16,8 +16,8 @@ const URL = "http://localhost:1337/api/auth/local";
         async authorize(credentials, req) {
           if (credentials == null) return null;
           try {
-            //  const {data} = await axios.post(`http://localhost:1337/api/auth/local`, {
-              const {data} = await axios.post(`https://motive-app.herokuapp.com/api/auth/local`, {
+             const {data} = await axios.post(`http://localhost:1337/api/auth/local`, {
+              // const {data} = await axios.post(`https://motive-app.herokuapp.com/api/auth/local`, {
                 identifier: credentials.email,
                 password: credentials.password
             });
