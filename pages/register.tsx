@@ -147,7 +147,7 @@ function Register() {
             </div>
             <div className="flex items-center w-full mt-2">
               <div className="w-full md:w-1/3 px-3 pt-4 mx-2 border-t border-gray-400">
-                <button className="appearance-none flex items-center justify-center block w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
+                <button className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
                   <svg
                     className="h-6 w-6 fill-current text-gray-700"
                     viewBox="0 0 512 512"
@@ -157,7 +157,7 @@ function Register() {
                 </button>
               </div>
               <div className="w-full md:w-1/3 px-3 pt-4 mx-2">
-                <button className="appearance-none flex items-center justify-center block w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
+                <button className="appearance-none items-center justify-center block w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
                   <svg
                     className="h-6 w-6 fill-current text-gray-700"
                     viewBox="0 0 512 512"
@@ -167,7 +167,7 @@ function Register() {
                 </button>
               </div>
               <div className="w-full md:w-1/3 px-3 pt-4 mx-2 border-t border-gray-400">
-                <button className="appearance-none flex items-center justify-center block w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
+                <button className="appearance-none flex items-center justify-center  w-full bg-gray-100 text-gray-700 shadow border border-gray-500 rounded-lg py-3 px-3 leading-tight hover:bg-gray-200 hover:text-gray-700 focus:outline-none">
                   <svg
                     className="h-6 w-6 fill-current text-gray-700"
                     viewBox="0 0 512 512"
