@@ -47,7 +47,7 @@ function Post() {
         body: commentRef?.current?.value,
         post: Number(id),
         users_permissions_user: user?.id,
-        user: user?.email.split("@")[0],
+        user: user.username,
       });
       console.log(data);
     } catch (error) {
@@ -68,7 +68,7 @@ function Post() {
                 data.data.attributes.coverPhoto.data.attributes.formats.small
                   .url
               }
-              //  src={
+              // src={
               //   "https://localhost:1337" +
               //   data.data.attributes.coverPhoto.data.attributes.formats.small
               //     .url
