@@ -38,10 +38,15 @@ export default function Home(data: Props) {
                 <div className="border rounded-lg group cusor-pointer overflow-hidden shadow-lg">
                   <img
                     className="h-60 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out"
+                    // src={
+                    //   "https://localhost:1337" +
+                    //   post.attributes.coverPhoto.data.attributes.formats.large
+                    //     .url
+                    // }
                     src={
                       "https://motive-app.herokuapp.com" +
-                      post.attributes.coverPhoto.data.attributes.formats.large
-                        .url
+                      post.attributes.coverPhoto.data.attributes.formats
+                        .thumbnail.url
                     }
                     alt="Banner"
                   />
