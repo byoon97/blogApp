@@ -39,7 +39,7 @@ export default function Home(data: Props) {
                   <img
                     className="h-60 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out"
                     src={
-                      "https://localhost:1337" +
+                      "https://motive-app.herokuapp.com" +
                       post.attributes.coverPhoto.data.attributes.formats.large
                         .url
                     }

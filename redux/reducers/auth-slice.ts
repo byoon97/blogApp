@@ -29,7 +29,8 @@ const handleLogin = async (identifier : string, password : string) => {
     password: 'abc123',
   };
 
-  const login = await fetch(`http://localhost:1337/api/auth/local`, {
+  const login = await fetch(`https://motive-app.herokuapp.com/api/auth/local`, {
+//   const login = await fetch(`http://localhost:1337/api/auth/local`, {
     method: "POST",
     headers: {
       Accept: "application/json",
