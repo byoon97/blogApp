@@ -8,13 +8,13 @@ import {
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useRouter } from "next/dist/client/router";
 import Header from "../../components/Header";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { makeStore } from "../../redux/store";
+import { useAppSelector } from "../../redux/Hooks";
 
 function Post() {
+  const { isLoggedIn, user } = useAppSelector((state) => state.authSlice);
   const router = useRouter();
-  const { data: session, status } = useSession();
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
   const id = router.query.id;
   const { data, isSuccess, error, isLoading } = useGetSinglePostQuery(
@@ -46,8 +46,8 @@ function Post() {
       const data = await createComment({
         body: commentRef?.current?.value,
         post: Number(id),
-        users_permissions_user: session?.user.id,
-        user: session?.user.email.split("@")[0],
+        users_permissions_user: user?.id,
+        user: user?.email.split("@")[0],
       });
       console.log(data);
     } catch (error) {

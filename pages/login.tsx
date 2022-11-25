@@ -1,39 +1,28 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { useRef } from "react";
-import { signIn, getSession } from "next-auth/react";
+import { handleLoginThunk } from "../redux/reducers/auth-slice";
+import { useAppDispatch } from "../redux/Hooks";
+import Router, { useRouter } from "next/router";
 
 export interface IAppProps {}
 
-export default function App(props: IAppProps) {
+export default function LogIn<Ref>(props: IAppProps) {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
-  async function handleSubmit(e: React.ChangeEvent<any>) {
+  const handleLogin = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
-    const credentials = {
-      email: emailRef?.current?.value,
-      password: passwordRef?.current?.value,
-    };
-
-    try {
-      const result = await signIn("credentials", {
-        redirect: false,
-        email: credentials.email,
-        password: credentials.password,
-      });
-      if (result?.ok) {
-        router.replace("/");
-        return;
-      }
-      alert("Credential is not valid");
-    } catch (err) {
-      console.log("Failed to sign in");
-      console.error(err);
-    }
-  }
+    let data = await dispatch(
+      handleLoginThunk({ identifier: emailRef, password: passwordRef })
+    );
+    console.log(data);
+    if (data.type.includes("fulfilled")) router.push("/");
+  };
 
   return (
     <div className="flex items-center justify-center h-screen flex-col">
@@ -105,7 +94,7 @@ export default function App(props: IAppProps) {
             </div>
             <div className="w-full md:w-full px-3 mb-6">
               <button
-                onClick={(e) => handleSubmit(e)}
+                onClick={(e) => handleLogin(e)}
                 className="appearance-none block w-full bg-blue-600 text-gray-100 font-bold border border-gray-200 rounded-lg py-3 px-3 leading-tight hover:bg-blue-500 focus:outline-none focus:bg-white focus:border-gray-500"
               >
                 Sign in

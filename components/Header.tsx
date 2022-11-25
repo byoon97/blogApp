@@ -1,14 +1,13 @@
-import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
+import { useAppDispatch, useAppSelector } from "../redux/Hooks";
+import { authActions } from "../redux/reducers/auth-slice";
 
 function Header() {
-  const { data: session, status } = useSession();
-  console.log(session, status);
+  const { isLoggedIn, user } = useAppSelector((state) => state.authSlice);
+  const dispatch = useAppDispatch();
 
-  const handleLogout = async () => {
-    await signOut({ callbackUrl: "/" });
-  };
+  console.log(isLoggedIn, user);
 
   return (
     <header className="flex justify-between p-5 max-w-7xl mx-auto">
@@ -31,16 +30,16 @@ function Header() {
         </div>
       </div>
       <div className="flex items-center space-x-5 text-green-600">
-        {status !== "authenticated" ? (
+        {!isLoggedIn ? (
           <Link href="/login">
             <h3>Sign In</h3>
           </Link>
         ) : (
-          <h3 onClick={handleLogout}>Sign Out</h3>
+          <h3 onClick={() => dispatch(authActions.logout())}>Sign Out</h3>
         )}
 
         <h3 className="border px-4 py-1 rounded-full border-green-600">
-          {status !== "authenticated" ? "Get Started" : session.user.email}
+          {!isLoggedIn ? "Get Started" : user.email}
         </h3>
       </div>
     </header>

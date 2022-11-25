@@ -1,9 +1,8 @@
-export default interface Session {
-    jwt: string;
-    user: User
-    id: number;
-    expires: string;
-    username: string
+export interface User {
+    id : number;
+    jwt: string
+    username: string;
+    email: string
 }
 
 export interface ID {

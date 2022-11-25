@@ -35,13 +35,13 @@ export default function Home(data: Props) {
           {data.data.data.map((post: SinglePost) => {
             return (
               <Link key={post.id} href={`/posts/${post.id}`}>
-                <div className="border rounded-lg group cusor-pointer overflow-hidden">
+                <div className="border rounded-lg group cusor-pointer overflow-hidden shadow-lg">
                   <img
                     className="h-60 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out"
                     src={
-                      "https://motive-app.herokuapp.com" +
-                      post.attributes.coverPhoto.data.attributes.formats
-                        .thumbnail.url
+                      "https://localhost:1337" +
+                      post.attributes.coverPhoto.data.attributes.formats.large
+                        .url
                     }
                     alt="Banner"
                   />
