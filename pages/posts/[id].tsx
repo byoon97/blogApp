@@ -123,9 +123,7 @@ function Post() {
           <form className="w-full max-w-xl bg-white rounded-lg px-4 pt-2 ">
             <div className="flex flex-wrap -mx-3 mb-6">
               <h2 className="px-4 pt-3 pb-2 text-gray-800 text-lg">
-                {status === "authenticated"
-                  ? "create a comment"
-                  : "please sign in to comment"}
+                {isLoggedIn ? "create a comment" : "please sign in to comment"}
               </h2>
               <div className="w-full md:w-full px-3 mb-2 mt-2">
                 <textarea
@@ -153,7 +151,7 @@ function Post() {
                   </svg>
                   <div className="flex justify-between">
                     <p className="text-xs md:text-sm pt-px">Dont be Rude.</p>
-                    {status === "authenticated" ? (
+                    {isLoggedIn ? (
                       <button
                         onClick={(e) => createCommentHandler(e)}
                         className="block uppercase mx-auto shadow bg-indigo-700 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-11 rounded"
