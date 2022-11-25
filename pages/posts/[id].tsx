@@ -68,6 +68,11 @@ function Post() {
                 data.data.attributes.coverPhoto.data.attributes.formats.small
                   .url
               }
+              //  src={
+              //   "https://localhost:1337" +
+              //   data.data.attributes.coverPhoto.data.attributes.formats.small
+              //     .url
+              // }
               alt="hello"
             />
             <article className="max-w-3xl mx-auto font-serif">

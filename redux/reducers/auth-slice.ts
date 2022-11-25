@@ -1,11 +1,16 @@
 import { User } from './../../types/typings.d';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { setCookie } from "nookies";
-import { Router } from 'next/router';
 
 interface myData {
     identifier: string
     password: string
+}
+
+interface RegisterUser {
+    username: any
+    email: any
+    password: any
 }
 
 interface UsersState {
@@ -25,8 +30,8 @@ const initialState = {
 
 const handleLogin = async (identifier : string, password : string) => {
   const loginInfo : myData = {
-    identifier: 'byoon5397@gmail.com',
-    password: 'abc123',
+    identifier,
+    password
   };
 
   const login = await fetch(`https://motive-app.herokuapp.com/api/auth/local`, {
@@ -43,7 +48,7 @@ const handleLogin = async (identifier : string, password : string) => {
 
   // If error, set error, else set cookies
   if (loginResponse.error) {
-    window.alert(loginResponse.error)
+    window.alert(loginResponse.message[0].messages[0].message)
   } else {
     setCookie(null, "jwt", loginResponse.jwt, {
       maxAge: 30 * 24 * 60 * 60,
@@ -56,6 +61,9 @@ const handleLogin = async (identifier : string, password : string) => {
   return loginResponse.user;
 };
 
+
+//thunks
+
 export const handleLoginThunk = createAsyncThunk<
   User,
   { identifier: any, password: any } & Partial<User>
@@ -63,12 +71,49 @@ export const handleLoginThunk = createAsyncThunk<
 >('users/update', async (userData : myData) => {
   try {
     const { identifier, password } = userData
+    console.log(userData)
     const response = await handleLogin(identifier, password)
     return response
   } catch (err) {
     console.log(err)
     throw err
   }
+})
+
+// register thunk
+
+export const handleRegisterThunk = createAsyncThunk<
+User,
+{ username: any, password: any, email: any } & Partial<RegisterUser>
+
+>('users/Register', async (registerInfo) => {
+try {
+    const register = await fetch(`https://motive-app.herokuapp.com/api/auth/local/register`, {
+//   const register = await fetch(`http://localhost:1337/api/auth/local/register`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(registerInfo),
+  });
+
+  const registerResponse = await register.json();
+
+  if (registerResponse.error) {
+    window.alert(registerResponse.message[0].messages[0].message)
+  } else {
+    setCookie(null, "jwt", registerResponse.jwt, {
+      maxAge: 30 * 24 * 60 * 60,
+      path: "/",
+    });
+  }
+
+  return registerResponse.user
+} catch (err) {
+  console.log(err)
+  throw err
+}
 })
 
 
@@ -83,9 +128,12 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(handleLoginThunk.fulfilled, (state, action) => {
-    console.log(action.payload)
-      state.isLoggedIn = true;
-      state.user = action.payload;
+        state.isLoggedIn = true;
+        state.user = action.payload;
+    });
+    builder.addCase(handleRegisterThunk.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.user = action.payload;
     });
   },
 });

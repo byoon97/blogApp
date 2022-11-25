@@ -2,37 +2,39 @@ import Link from "next/link";
 import React from "react";
 import { useRef } from "react";
 import { useRouter } from "next/router";
+import { useAppDispatch } from "../redux/Hooks";
+import { handleRegisterThunk } from "../redux/reducers/auth-slice";
 
 function Register() {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const confirmPasswordRef = useRef<HTMLInputElement | null>(null);
   const usernameRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
-  // async function handleSubmit(e: React.ChangeEvent<any>) {
-  //   e.preventDefault();
-  //   const credentials = {
-  //     email: emailRef?.current?.value,
-  //     password: passwordRef?.current?.value,
-  //   };
-
-  //   try {
-  //     const result = await signIn("credentials", {
-  //       redirect: false,
-  //       email: credentials.email,
-  //       password: credentials.password,
-  //     });
-  //     if (result?.ok) {
-  //       router.replace("/");
-  //       return;
-  //     }
-  //     alert("Credential is not valid");
-  //   } catch (err) {
-  //     console.log("Failed to sign in");
-  //     console.error(err);
-  //   }
-  // }
+  const handleRegister = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    if (passwordRef.current?.value === confirmPasswordRef.current?.value) {
+      let data = await dispatch(
+        handleRegisterThunk({
+          username: usernameRef.current?.value,
+          password: passwordRef.current?.value,
+          email: emailRef.current?.value,
+        })
+      );
+      console.log(data);
+      if (data.type.includes("fulfilled")) router.push("/");
+    } else {
+      console.log(
+        passwordRef.current?.value,
+        confirmPasswordRef.current?.value
+      );
+      window.alert("Passwords do not match");
+    }
+  };
 
   return (
     <div className="flex items-center justify-center h-screen flex-col">
@@ -132,7 +134,7 @@ function Register() {
             </div>
             <div className="w-full md:w-full px-3 mb-6">
               <button
-                // onClick={(e) => handleSubmit(e)}
+                onClick={(e) => handleRegister(e)}
                 className="appearance-none block w-full bg-blue-600 text-gray-100 font-bold border border-gray-200 rounded-lg py-3 px-3 leading-tight hover:bg-blue-500 focus:outline-none focus:bg-white focus:border-gray-500"
               >
                 Create Account

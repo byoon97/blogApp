@@ -18,7 +18,10 @@ export default function LogIn<Ref>(props: IAppProps) {
   ) => {
     e.preventDefault();
     let data = await dispatch(
-      handleLoginThunk({ identifier: emailRef, password: passwordRef })
+      handleLoginThunk({
+        identifier: emailRef.current?.value,
+        password: passwordRef.current?.value,
+      })
     );
     console.log(data);
     if (data.type.includes("fulfilled")) router.push("/");
