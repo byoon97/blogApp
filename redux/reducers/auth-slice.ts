@@ -35,7 +35,6 @@ const handleLogin = async (identifier : string, password : string) => {
   };
 
   const login = await fetch(`https://motive-app.herokuapp.com/api/auth/local`, {
-  // const login = await fetch(`http://localhost:1337/api/auth/local`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -88,8 +87,7 @@ User,
 
 >('users/Register', async (registerInfo) => {
 try {
-    // const register = await fetch(`https://motive-app.herokuapp.com/api/auth/local/register`, {
-  const register = await fetch(`http://localhost:1337/api/auth/local/register`, {
+    const register = await fetch(`https://motive-app.herokuapp.com/api/auth/local/register`, {
     method: "POST",
     headers: {
       Accept: "application/json",

@@ -4,7 +4,6 @@ import { Posts, SingleComment, SinglePost } from "../types/typings";
 
 export const motiveApi = createApi({
   reducerPath: "motiveApi",
-  // baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:1337/api" }),
   baseQuery: fetchBaseQuery({ baseUrl: "https://motive-app.herokuapp.com/api" }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
