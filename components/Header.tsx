@@ -1,13 +1,26 @@
 import Link from "next/link";
-import React from "react";
 import { useAppDispatch, useAppSelector } from "../redux/Hooks";
 import { authActions } from "../redux/reducers/auth-slice";
+import { useEffect, useState } from "react";
+
+interface IUser {
+  blocked: boolean;
+  confirmed: boolean;
+  createdAt: string;
+  email: string;
+  id: number;
+  provider: string;
+  updatedAt: string;
+  username: string;
+}
 
 function Header() {
   const { isLoggedIn, user } = useAppSelector((state) => state.authSlice);
   const dispatch = useAppDispatch();
 
-  console.log(isLoggedIn, user);
+  useEffect(() => {
+    dispatch(authActions.setUser());
+  }, [dispatch]);
 
   return (
     <header className="flex justify-between p-5 max-w-7xl mx-auto">
@@ -39,7 +52,7 @@ function Header() {
         )}
 
         <h3 className="border px-4 py-1 rounded-full border-green-600">
-          {!isLoggedIn ? "Get Started" : user.email}
+          {!isLoggedIn ? "Get Started" : user?.email}
         </h3>
       </div>
     </header>

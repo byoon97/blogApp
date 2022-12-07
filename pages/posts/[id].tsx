@@ -9,8 +9,8 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { useRouter } from "next/dist/client/router";
 import Header from "../../components/Header";
 import Link from "next/link";
-import { makeStore } from "../../redux/store";
-import { useAppSelector } from "../../redux/Hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/Hooks";
+import { authActions } from "../../redux/reducers/auth-slice";
 
 function Post() {
   const { isLoggedIn, user } = useAppSelector((state) => state.authSlice);
@@ -26,19 +26,11 @@ function Post() {
     }
   );
   const [createComment] = useCreateCommentMutation();
-
-  // ssg
-  const store = makeStore();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const hello = async () => {
-      const result = await store.dispatch(getPosts.initiate());
-      console.log(result);
-      return result;
-    };
-
-    console.log("hello", hello());
-  }, []);
+    dispatch(authActions.setUser());
+  }, [dispatch]);
 
   const createCommentHandler = async (e: React.ChangeEvent<any>) => {
     e.preventDefault();

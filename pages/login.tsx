@@ -23,7 +23,7 @@ export default function LogIn<Ref>(props: IAppProps) {
         password: passwordRef.current?.value,
       })
     );
-    console.log(data);
+    localStorage.setItem("user", JSON.stringify(data));
     if (data.type.includes("fulfilled")) router.push("/");
   };
 

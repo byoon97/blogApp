@@ -54,8 +54,6 @@ const handleLogin = async (identifier : string, password : string) => {
       path: "/",
       
     });
-    // store user's token in local storage
-    localStorage.setItem("userToken", loginResponse.jwt);
   }
   return loginResponse.user;
 };
@@ -107,6 +105,7 @@ try {
     });
   }
 
+  localStorage.setItem("user", registerResponse);
   return registerResponse.user
 } catch (err) {
   console.log(err)
@@ -122,7 +121,16 @@ const authSlice = createSlice({
     logout(state) {
       state.isLoggedIn = false;
       state.user = { email: '', jwt: '', username: '', id: undefined};
+      localStorage.clear();
     },
+    setUser(state) {
+      const loggedInUser = localStorage.getItem("user");
+      if (loggedInUser) {
+        console.log('reducer')
+        state.user = (JSON.parse(loggedInUser).payload);
+        state.isLoggedIn = true
+      }
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(handleLoginThunk.fulfilled, (state, action) => {
