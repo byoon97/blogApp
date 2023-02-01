@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-textarea:hover, 
+/* textarea:hover, 
 input:hover, 
 textarea:active, 
 input:active, 
@@ -18,4 +18,4 @@ label:focus,
     outline:0px !important;
     -webkit-appearance:none;
     box-shadow: none !important;
-}
+} */
